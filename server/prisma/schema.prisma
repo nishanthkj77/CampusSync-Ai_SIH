@@ -1,0 +1,258 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  FACULTY
+  HOD
+  ADMIN
+}
+
+enum CourseType {
+  MAJOR
+  MINOR
+  SKILL
+  VALUE_ADDED
+  ELECTIVE
+}
+
+enum RoomType {
+  CLASSROOM
+  LAB
+}
+
+enum SlotType {
+  THEORY
+  LAB
+}
+
+enum Day {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
+enum ConflictType {
+  FACULTY_CLASH
+  STUDENT_SUBJECT_CLASH
+  ROOM_CLASH
+  LAB_ALLOCATION_CLASH
+  WORKLOAD_CONFLICT
+}
+
+model User {
+  id           String  @id @default(cuid())
+  name         String
+  email        String  @unique
+  passwordHash String
+  role         Role
+  isActive     Boolean @default(true)
+
+  faculty Faculty?
+  student Student?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([role])
+}
+
+model Department {
+  id       String  @id @default(cuid())
+  name     String  @unique
+  code     String  @unique
+  isActive Boolean @default(true)
+
+  faculties Faculty[]
+  students  Student[]
+  subjects  Subject[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Faculty {
+  id             String  @id @default(cuid())
+  employeeCode   String  @unique
+  designation    String?
+  maxWeeklyHours Int     @default(18)
+  isAvailable    Boolean @default(true)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id])
+
+  subjects        Subject[]
+  timetables      Timetable[]
+  conflictReports ConflictReport[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([departmentId])
+}
+
+model Student {
+  id             String  @id @default(cuid())
+  registerNumber String  @unique
+  semester       Int
+  batchYear      Int
+  isActive       Boolean @default(true)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id])
+
+  courseSelections CourseSelection[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([departmentId])
+  @@index([semester])
+}
+
+model Subject {
+  id          String     @id @default(cuid())
+  name        String
+  code        String     @unique
+  courseType  CourseType
+  creditHours Int
+  labRequired Boolean    @default(false)
+  isActive    Boolean    @default(true)
+
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id])
+
+  facultyId String?
+  faculty   Faculty? @relation(fields: [facultyId], references: [id])
+
+  courseSelections CourseSelection[]
+  timetables       Timetable[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([departmentId])
+  @@index([courseType])
+}
+
+model Room {
+  id          String   @id @default(cuid())
+  name        String
+  code        String   @unique
+  capacity    Int
+  roomType    RoomType
+  isAvailable Boolean  @default(true)
+
+  timetables      Timetable[]
+  conflictReports ConflictReport[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([roomType])
+}
+
+model TimeSlot {
+  id        String   @id @default(cuid())
+  day       Day
+  startTime String
+  endTime   String
+  slotType  SlotType
+  isActive  Boolean  @default(true)
+
+  timetables Timetable[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([day, startTime, endTime])
+  @@index([day])
+  @@index([slotType])
+}
+
+model CourseSelection {
+  id String @id @default(cuid())
+
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  subjectId String
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  choiceType CourseType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([studentId, subjectId])
+  @@index([studentId])
+  @@index([subjectId])
+  @@index([choiceType])
+}
+
+model Timetable {
+  id           String @id @default(cuid())
+  academicYear String
+  semester     Int
+  batchYear    Int
+
+  departmentId String
+  subjectId    String
+  facultyId    String
+  roomId       String
+  timeSlotId   String
+
+  subject  Subject  @relation(fields: [subjectId], references: [id])
+  faculty  Faculty  @relation(fields: [facultyId], references: [id])
+  room     Room     @relation(fields: [roomId], references: [id])
+  timeSlot TimeSlot @relation(fields: [timeSlotId], references: [id])
+
+  conflictReports ConflictReport[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([facultyId, timeSlotId])
+  @@unique([roomId, timeSlotId])
+  @@index([departmentId])
+  @@index([semester])
+  @@index([batchYear])
+}
+
+model ConflictReport {
+  id           String       @id @default(cuid())
+  conflictType ConflictType
+  message      String
+  isResolved   Boolean      @default(false)
+
+  timetableId String?
+  timetable   Timetable? @relation(fields: [timetableId], references: [id], onDelete: Cascade)
+
+  facultyId String?
+  faculty   Faculty? @relation(fields: [facultyId], references: [id])
+
+  roomId String?
+  room   Room?   @relation(fields: [roomId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([conflictType])
+  @@index([isResolved])
+}
