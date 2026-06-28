@@ -6,6 +6,7 @@ import facultyRoutes from "./faculty.routes";
 import studentRoutes from "./student.routes";
 import subjectRoutes from "./subject.routes";
 import roomRoutes from "./room.routes";
+import timeslotRoutes from "./timeslot.routes";
 import { ApiResponse } from "../utils/apiResponse";
 
 const router = Router();
@@ -26,5 +27,6 @@ router.use("/faculties", facultyRoutes);
 router.use("/students", studentRoutes);
 router.use("/subjects", subjectRoutes);
 router.use("/rooms", roomRoutes);
+router.use("/timeslots", timeslotRoutes);
 
 export default router;
