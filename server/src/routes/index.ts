@@ -7,6 +7,7 @@ import studentRoutes from "./student.routes";
 import subjectRoutes from "./subject.routes";
 import roomRoutes from "./room.routes";
 import timeslotRoutes from "./timeslot.routes";
+import courseSelectionRoutes from "./courseSelection.routes";
 import { ApiResponse } from "../utils/apiResponse";
 
 const router = Router();
@@ -28,5 +29,6 @@ router.use("/students", studentRoutes);
 router.use("/subjects", subjectRoutes);
 router.use("/rooms", roomRoutes);
 router.use("/timeslots", timeslotRoutes);
+router.use("/course-selections", courseSelectionRoutes);
 
 export default router;
