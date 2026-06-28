@@ -9,6 +9,7 @@ import roomRoutes from "./room.routes";
 import timeslotRoutes from "./timeslot.routes";
 import courseSelectionRoutes from "./courseSelection.routes";
 import timetableRoutes from "./timetable.routes";
+import conflictReportRoutes from "./conflictReport.routes";
 import { ApiResponse } from "../utils/apiResponse";
 
 const router = Router();
@@ -32,5 +33,6 @@ router.use("/rooms", roomRoutes);
 router.use("/timeslots", timeslotRoutes);
 router.use("/course-selections", courseSelectionRoutes);
 router.use("/timetables", timetableRoutes);
+router.use("/conflict-reports", conflictReportRoutes);
 
 export default router;
