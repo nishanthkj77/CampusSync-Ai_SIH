@@ -4,6 +4,7 @@ import authRoutes from "./auth.routes";
 import departmentRoutes from "./department.routes";
 import facultyRoutes from "./faculty.routes";
 import studentRoutes from "./student.routes";
+import subjectRoutes from "./subject.routes";
 import { ApiResponse } from "../utils/apiResponse";
 
 const router = Router();
@@ -22,5 +23,6 @@ router.use("/auth", authRoutes);
 router.use("/departments", departmentRoutes);
 router.use("/faculties", facultyRoutes);
 router.use("/students", studentRoutes);
+router.use("/subjects", subjectRoutes);
 
 export default router;
