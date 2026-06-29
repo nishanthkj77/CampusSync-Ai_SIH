@@ -23,5 +23,19 @@ Thumbs.db
 # VS Code
 .vscode/
 
+
+node_modules
+dist
+.env
+.env.local
+.env.*.local
+
+client/node_modules
+client/dist
+client/.env
+
+server/node_modules
+server/dist
+server/.env
 # Prisma generated files are allowed,
 # but local database/secrets are not.
