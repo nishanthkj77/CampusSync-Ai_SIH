@@ -1,11 +1,13 @@
-import RoleDashboardShell from "../components/RoleDashboardShell";
+ import DashboardSummary, {
+  dashboardMetrics,
+} from "../components/DashboardSummary";
 
 export default function AdminDashboard() {
   return (
-    <RoleDashboardShell
+    <DashboardSummary
       title="Admin Dashboard"
-      description="Manage academic master data, timetable generation, and conflict reports."
-      scope="Next step will connect this page to admin dashboard and master-data APIs."
+      description="Manage all CampusSync AI academic master data and timetable generation modules."
+      metrics={dashboardMetrics.academicMaster}
     />
   );
 }

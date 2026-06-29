@@ -1,5 +1,6 @@
-import { useState, type FormEvent } from "react";
+ import { useState, type FormEvent } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
+
 import Button from "../../../components/ui/Button";
 import ErrorMessage from "../../../components/ui/ErrorMessage";
 import Input from "../../../components/ui/Input";
@@ -16,8 +17,11 @@ interface RegisterForm {
   role: Role;
 }
 
+type RegisterFormErrors = Partial<Record<keyof RegisterForm, string>>;
+
 export default function RegisterPage() {
   const navigate = useNavigate();
+
   const { isAuthenticated, registerUser, authError, clearAuthError } =
     useAuth();
 
@@ -28,7 +32,8 @@ export default function RegisterPage() {
     confirmPassword: "",
     role: ROLES.STUDENT,
   });
-  const [errors, setErrors] = useState<Partial<Record<keyof RegisterForm, string>>>({});
+
+  const [errors, setErrors] = useState<RegisterFormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (isAuthenticated) {
@@ -37,15 +42,25 @@ export default function RegisterPage() {
 
   function updateField(name: keyof RegisterForm, value: string) {
     clearAuthError();
-    setForm((previous) => ({ ...previous, [name]: value }));
-    setErrors((previous) => ({ ...previous, [name]: undefined }));
+
+    setForm((previous) => ({
+      ...previous,
+      [name]: value,
+    }));
+
+    setErrors((previous) => ({
+      ...previous,
+      [name]: undefined,
+    }));
   }
 
   function validate() {
-    const nextErrors: Partial<Record<keyof RegisterForm, string>> = {};
+    const nextErrors: RegisterFormErrors = {};
 
     if (!form.name.trim()) {
       nextErrors.name = "Name is required";
+    } else if (form.name.trim().length < 3) {
+      nextErrors.name = "Name must be at least 3 characters";
     }
 
     if (!form.email.trim()) {
@@ -60,7 +75,9 @@ export default function RegisterPage() {
       nextErrors.password = "Password must be at least 6 characters";
     }
 
-    if (form.password !== form.confirmPassword) {
+    if (!form.confirmPassword) {
+      nextErrors.confirmPassword = "Confirm password is required";
+    } else if (form.password !== form.confirmPassword) {
       nextErrors.confirmPassword = "Passwords do not match";
     }
 
@@ -69,6 +86,7 @@ export default function RegisterPage() {
     }
 
     setErrors(nextErrors);
+
     return Object.keys(nextErrors).length === 0;
   }
 
@@ -88,6 +106,8 @@ export default function RegisterPage() {
       });
 
       navigate(routes.dashboard, { replace: true });
+    } catch {
+      // Error message is already handled by auth store.
     } finally {
       setIsSubmitting(false);
     }
@@ -105,6 +125,7 @@ export default function RegisterPage() {
         <Input
           label="Full name"
           name="name"
+          type="text"
           placeholder="Enter full name"
           value={form.name}
           error={errors.name}
@@ -122,14 +143,19 @@ export default function RegisterPage() {
         />
 
         <div>
-          <label htmlFor="role" className="text-sm font-semibold text-slate-700">
+          <label
+            htmlFor="role"
+            className="text-sm font-semibold text-slate-700"
+          >
             Role
           </label>
 
           <select
             id="role"
             value={form.role}
-            onChange={(event) => updateField("role", event.target.value)}
+            onChange={(event) =>
+              updateField("role", event.target.value as Role)
+            }
             className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-950 outline-none transition focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
           >
             <option value={ROLES.STUDENT}>Student</option>
@@ -138,7 +164,9 @@ export default function RegisterPage() {
             <option value={ROLES.ADMIN}>Admin</option>
           </select>
 
-          {errors.role && <p className="mt-2 text-sm text-red-600">{errors.role}</p>}
+          {errors.role && (
+            <p className="mt-2 text-sm text-red-600">{errors.role}</p>
+          )}
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2">
@@ -165,7 +193,13 @@ export default function RegisterPage() {
           />
         </div>
 
-        <Button type="submit" variant="ai" size="lg" isLoading={isSubmitting} className="w-full">
+        <Button
+          type="submit"
+          variant="ai"
+          size="lg"
+          isLoading={isSubmitting}
+          className="w-full"
+        >
           Create account
         </Button>
       </form>

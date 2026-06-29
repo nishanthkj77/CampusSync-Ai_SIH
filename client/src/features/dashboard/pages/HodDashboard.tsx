@@ -1,11 +1,13 @@
-import RoleDashboardShell from "../components/RoleDashboardShell";
+ import DashboardSummary, {
+  dashboardMetrics,
+} from "../components/DashboardSummary";
 
 export default function HodDashboard() {
   return (
-    <RoleDashboardShell
+    <DashboardSummary
       title="HOD Dashboard"
-      description="Review department timetable generation, course mappings, and conflict reports."
-      scope="Next step will connect this page to department-level dashboard and timetable APIs."
+      description="Monitor department timetable planning, faculty allocation, and conflict reports."
+      metrics={dashboardMetrics.hod}
     />
   );
 }

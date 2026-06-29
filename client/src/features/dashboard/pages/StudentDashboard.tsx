@@ -1,11 +1,13 @@
-import RoleDashboardShell from "../components/RoleDashboardShell";
+ import DashboardSummary, {
+  dashboardMetrics,
+} from "../components/DashboardSummary";
 
 export default function StudentDashboard() {
   return (
-    <RoleDashboardShell
+    <DashboardSummary
       title="Student Dashboard"
-      description="View personal timetable and course selection information."
-      scope="Next step will connect this page to student timetable and course selection APIs."
+      description="View your timetable and course selection information from backend data."
+      metrics={dashboardMetrics.student}
     />
   );
 }

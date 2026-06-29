@@ -1,5 +1,6 @@
-import { useState, type FormEvent } from "react";
+ import { useState, type FormEvent } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
+
 import Button from "../../../components/ui/Button";
 import ErrorMessage from "../../../components/ui/ErrorMessage";
 import Input from "../../../components/ui/Input";
@@ -14,12 +15,14 @@ interface LoginForm {
 
 export default function LoginPage() {
   const navigate = useNavigate();
+
   const { isAuthenticated, loginUser, authError, clearAuthError } = useAuth();
 
   const [form, setForm] = useState<LoginForm>({
     email: "",
     password: "",
   });
+
   const [errors, setErrors] = useState<Partial<LoginForm>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -29,8 +32,16 @@ export default function LoginPage() {
 
   function updateField(name: keyof LoginForm, value: string) {
     clearAuthError();
-    setForm((previous) => ({ ...previous, [name]: value }));
-    setErrors((previous) => ({ ...previous, [name]: undefined }));
+
+    setForm((previous) => ({
+      ...previous,
+      [name]: value,
+    }));
+
+    setErrors((previous) => ({
+      ...previous,
+      [name]: undefined,
+    }));
   }
 
   function validate() {
@@ -47,6 +58,7 @@ export default function LoginPage() {
     }
 
     setErrors(nextErrors);
+
     return Object.keys(nextErrors).length === 0;
   }
 
@@ -64,6 +76,8 @@ export default function LoginPage() {
       });
 
       navigate(routes.dashboard, { replace: true });
+    } catch {
+      // Error message is already handled by auth store.
     } finally {
       setIsSubmitting(false);
     }
@@ -98,7 +112,13 @@ export default function LoginPage() {
           onChange={(event) => updateField("password", event.target.value)}
         />
 
-        <Button type="submit" variant="primary" size="lg" isLoading={isSubmitting} className="w-full">
+        <Button
+          type="submit"
+          variant="primary"
+          size="lg"
+          isLoading={isSubmitting}
+          className="w-full"
+        >
           Login
         </Button>
       </form>
