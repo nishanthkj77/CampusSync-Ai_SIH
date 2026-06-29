@@ -1,4 +1,4 @@
-import type { Role } from "../constants/roles";
+ import type { Role } from "../constants/roles";
 
 export interface ApiResponse<T> {
   success: boolean;
@@ -23,4 +23,16 @@ export interface AuthUser {
 export interface AuthResponse {
   token: string;
   user: AuthUser;
+}
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+export interface RegisterPayload {
+  name: string;
+  email: string;
+  password: string;
+  role: Role;
 }

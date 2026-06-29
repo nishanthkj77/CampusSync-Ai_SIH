@@ -1,4 +1,4 @@
-import axios from "axios";
+ import axios from "axios";
 import { env } from "../config/env";
 import { storage } from "./storage";
 
@@ -30,3 +30,24 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export function getApiErrorMessage(error: unknown): string {
+  if (axios.isAxiosError(error)) {
+    const responseData = error.response?.data as
+      | { message?: string; error?: string }
+      | undefined;
+
+    return (
+      responseData?.message ||
+      responseData?.error ||
+      error.message ||
+      "Request failed. Please try again."
+    );
+  }
+
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return "Something went wrong. Please try again.";
+}
