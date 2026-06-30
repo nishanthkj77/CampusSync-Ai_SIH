@@ -1,4 +1,4 @@
-# Dependencies
+ # Dependencies
 node_modules/
 
 # Environment files
@@ -20,22 +20,14 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
-# VS Code
+# VS Code local settings
 .vscode/
 
+# AI engine runtime generated files
+ai-engine/runtime/input.json
+ai-engine/runtime/output.json
 
-node_modules
-dist
-.env
-.env.local
-.env.*.local
-
-client/node_modules
-client/dist
-client/.env
-
-server/node_modules
-server/dist
-server/.env
-# Prisma generated files are allowed,
-# but local database/secrets are not.
+# Python cache
+__pycache__/
+*.pyc
+.venv/
