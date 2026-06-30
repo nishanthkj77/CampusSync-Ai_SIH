@@ -1,6 +1,7 @@
-import { Request, Response } from "express";
+ import { Request, Response } from "express";
 
 import { timetableService } from "../services/timetable.service";
+import { aiTimetableService } from "../services/aiTimetable.service";
 import { asyncHandler } from "../utils/asyncHandler";
 import { ApiResponse } from "../utils/apiResponse";
 import { ApiError } from "../utils/apiError";
@@ -21,6 +22,14 @@ export const timetableController = {
 
     res.status(201).json(
       new ApiResponse("Timetable generated successfully", timetable)
+    );
+  }),
+
+  generateTimetableWithAi: asyncHandler(async (req: Request, res: Response) => {
+    const result = await aiTimetableService.generateWithAiEngine(req.body);
+
+    res.status(201).json(
+      new ApiResponse("AI timetable generated successfully", result)
     );
   }),
 

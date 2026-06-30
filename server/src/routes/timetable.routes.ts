@@ -1,14 +1,22 @@
-import { Router } from "express";
+ import { Router } from "express";
 
 import { timetableController } from "../controllers/timetable.controller";
 import { authenticate } from "../middleware/auth.middleware";
 import { authorizeRoles } from "../middleware/role.middleware";
 import { validate } from "../middleware/validate.middleware";
 import { generateTimetableSchema } from "../services/timetable.service";
+import { aiGenerateTimetableSchema } from "../services/aiTimetable.service";
 
 const router = Router();
 
 router.use(authenticate);
+
+router.post(
+  "/generate-ai",
+  authorizeRoles("ADMIN", "HOD"),
+  validate(aiGenerateTimetableSchema),
+  timetableController.generateTimetableWithAi
+);
 
 router.post(
   "/generate",
