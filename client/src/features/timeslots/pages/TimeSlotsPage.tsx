@@ -4,7 +4,7 @@ import ResourcePage from "../../common/ResourcePage";
 export default function TimeSlotsPage() {
   return (
     <ResourcePage
-      title="TimeSlot Management"
+      title="Manage available academic time slots for timetable generation."
       description="Manage available academic time slots for timetable generation."
       endpoints={API_ENDPOINTS.timeslots}
       columns={[

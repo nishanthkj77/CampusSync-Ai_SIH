@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router";
-import Button from "../ui/Button";
+ import { useNavigate } from "react-router";
 import { routes } from "../../config/routes";
 import { useAuth } from "../../features/auth/store/auth.store";
+import Button from "../ui/Button";
 
 export default function Topbar() {
   const navigate = useNavigate();
@@ -17,10 +17,10 @@ export default function Topbar() {
       <div className="flex h-16 items-center justify-between px-5 lg:px-8">
         <div>
           <p className="text-sm font-black text-slate-950">
-            CampusSync AI Control Panel
+            Academic Scheduling Dashboard
           </p>
           <p className="text-xs text-slate-500">
-            SIH 2026 • NEP timetable generation
+            NEP-Aligned Academic Timetable Management System
           </p>
         </div>
 

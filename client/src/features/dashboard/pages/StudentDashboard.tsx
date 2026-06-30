@@ -5,8 +5,8 @@
 export default function StudentDashboard() {
   return (
     <DashboardSummary
-      title="Student Dashboard"
-      description="View your timetable and course selection information from backend data."
+      title="Academic Scheduling Dashboard"
+      description="View timetable and course selection information assigned to your academic profile."
       metrics={dashboardMetrics.student}
     />
   );

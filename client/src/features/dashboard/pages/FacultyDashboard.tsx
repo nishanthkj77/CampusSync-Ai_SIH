@@ -5,8 +5,8 @@
 export default function FacultyDashboard() {
   return (
     <DashboardSummary
-      title="Faculty Dashboard"
-      description="View teaching-related timetable and subject data from backend APIs."
+      title="Faculty Management"
+      description="View teaching schedules, subjects, and timetable allocation details."
       metrics={dashboardMetrics.faculty}
     />
   );

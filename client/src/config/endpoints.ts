@@ -1,4 +1,4 @@
-export const API_ENDPOINTS = {
+ export const API_ENDPOINTS = {
   departments: ["/departments", "/department"],
   faculties: ["/faculties", "/faculty"],
   students: ["/students", "/student"],
@@ -11,7 +11,9 @@ export const API_ENDPOINTS = {
     "/course-selection",
   ],
   timetables: ["/timetables", "/timetable"],
-  generateTimetable: ["/timetables/generate", "/timetable/generate"],
+
+  generateTimetable: ["/timetables/generate-ai"],
+
   conflictReports: [
     "/conflict-reports",
     "/conflictReports",

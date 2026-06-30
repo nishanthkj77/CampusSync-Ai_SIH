@@ -5,8 +5,8 @@
 export default function AdminDashboard() {
   return (
     <DashboardSummary
-      title="Admin Dashboard"
-      description="Manage all CampusSync AI academic master data and timetable generation modules."
+      title="Academic Scheduling Dashboard"
+      description="Manage academic data, timetable generation, and conflict reports across the institution."
       metrics={dashboardMetrics.academicMaster}
     />
   );

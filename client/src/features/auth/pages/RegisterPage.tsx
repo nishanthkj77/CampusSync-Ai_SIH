@@ -115,10 +115,10 @@ export default function RegisterPage() {
 
   return (
     <AuthLayout
-      eyebrow="Account setup"
-      title="Register for CampusSync AI"
-      subtitle="Create an account for a valid academic role. Backend authorization will control final access."
-    >
+  eyebrow="Account setup"
+  title="Register for CampusSync AI"
+  subtitle="Manage departments, faculty, rooms, course selections, and AI-generated timetables from one secure academic scheduling platform."
+>
       <form onSubmit={handleSubmit} className="mt-7 space-y-5">
         {authError && <ErrorMessage message={authError} />}
 

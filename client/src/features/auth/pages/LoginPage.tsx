@@ -85,10 +85,10 @@ export default function LoginPage() {
 
   return (
     <AuthLayout
-      eyebrow="Welcome back"
-      title="Login to CampusSync AI"
-      subtitle="Access your role-based timetable dashboard using your authorized account."
-    >
+  eyebrow="Welcome back"
+  title="Login to CampusSync AI"
+  subtitle="Manage departments, faculty, rooms, course selections, and AI-generated timetables from one secure academic scheduling platform."
+>
       <form onSubmit={handleSubmit} className="mt-7 space-y-5">
         {authError && <ErrorMessage message={authError} />}
 

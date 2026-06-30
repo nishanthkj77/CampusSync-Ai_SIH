@@ -33,14 +33,14 @@ export default function AuthLayout({
                     Campus<span className="text-orange-400">Sync AI</span>
                   </h1>
                   <p className="text-xs text-slate-400">
-                    NEP Timetable Generation System
+                    NEP-Aligned Academic Timetable Management System
                   </p>
                 </div>
               </div>
 
               <div className="mt-16 max-w-xl">
                 <p className="text-sm font-semibold uppercase tracking-[0.35em] text-blue-300">
-                  SIH 2026
+                 Academic Scheduling
                 </p>
 
                 <h2 className="mt-5 text-5xl font-black leading-tight">
@@ -52,8 +52,8 @@ export default function AuthLayout({
                 </h2>
 
                 <p className="mt-6 text-base leading-8 text-slate-300">
-                  AI-based timetable generation aligned with NEP 2020 for
-                  multidisciplinary education structures.
+                  Manage departments, faculty, rooms, course selections, and
+AI-generated timetables from one secure academic scheduling platform.
                 </p>
               </div>
             </div>

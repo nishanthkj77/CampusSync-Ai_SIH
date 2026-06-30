@@ -31,18 +31,51 @@ api.interceptors.response.use(
   }
 );
 
+function formatErrorDetails(errors: unknown): string {
+  if (!errors) return "";
+
+  if (typeof errors === "string") {
+    return errors;
+  }
+
+  if (Array.isArray(errors)) {
+    return errors.map(String).join(", ");
+  }
+
+  if (typeof errors === "object") {
+    return Object.entries(errors as Record<string, unknown>)
+      .map(([key, value]) => {
+        if (Array.isArray(value)) {
+          return `${key}: ${value.map(String).join(", ")}`;
+        }
+
+        return `${key}: ${String(value)}`;
+      })
+      .join(" | ");
+  }
+
+  return "";
+}
+
 export function getApiErrorMessage(error: unknown): string {
   if (axios.isAxiosError(error)) {
     const responseData = error.response?.data as
-      | { message?: string; error?: string }
+      | {
+          message?: string;
+          error?: string;
+          errors?: unknown;
+        }
       | undefined;
 
-    return (
+    const message =
       responseData?.message ||
       responseData?.error ||
       error.message ||
-      "Request failed. Please try again."
-    );
+      "Request failed. Please try again.";
+
+    const details = formatErrorDetails(responseData?.errors);
+
+    return details ? `${message}: ${details}` : message;
   }
 
   if (error instanceof Error) {
