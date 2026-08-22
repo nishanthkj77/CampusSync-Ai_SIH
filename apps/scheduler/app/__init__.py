@@ -1,0 +1,1 @@
+"""CampusSync scheduling service."""

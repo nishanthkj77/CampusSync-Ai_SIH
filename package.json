@@ -1,0 +1,26 @@
+{
+  "name": "campussync-ai-v2",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.22.0",
+  "engines": {
+    "node": ">=24.19.0 <25"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @campussync/web --filter @campussync/api dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r --if-present lint",
+    "test": "pnpm -r --if-present test",
+    "db:generate": "prisma generate --config prisma.config.ts",
+    "db:migrate": "prisma migrate dev --config prisma.config.ts",
+    "db:studio": "prisma studio --config prisma.config.ts"
+  },
+  "devDependencies": {
+    "dotenv": "^17.2.2",
+    "prisma": "7.9.1",
+    "tsx": "^4.20.5",
+    "typescript": "7.0.2"
+  }
+}
